@@ -18,7 +18,7 @@ public class PlayerSurrounding:MonoBehaviour
     private Player _player {
         get {
             if( _p == null ) {
-                _p = GetComponent<PlayerController>().Player;
+                _p = GameData.Player;
                 _p.RegisterSurroundingChange(UpdateSprite);
             }
             return _p;
@@ -64,7 +64,6 @@ public class PlayerSurrounding:MonoBehaviour
         case Surrounding.WaterOcean:
             WaterMask.sprite = OceanSprite;
             break;
-
         default:
             break;
         }

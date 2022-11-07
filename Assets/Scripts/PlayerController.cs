@@ -4,60 +4,39 @@ using UnityEngine;
 
 public class PlayerController:MonoBehaviour
 {
-    public float InitSpeed;
-
-    private float _speed;
+    public const float InitSpeed = 0.05f;
 
     private PlayerSurrounding _surrounding;
+
+    public Player Player;
 
 
     // Start is called before the first frame update
     void Start() {
+        if( Player == null ) {
+            Player = new Player();
+        }
         _surrounding = GetComponent<PlayerSurrounding>();
-        UpdateSpeed();
+        _surrounding.CheckSurrounding();
     }
 
     // Update is called once per frame
     void FixedUpdate() {
         if( Input.GetKey(KeyCode.D) ) {
-            this.transform.SetPositionAndRotation(transform.position + new Vector3(_speed, 0, 0), transform.rotation);
-            if( _surrounding.CheckSurrounding() )
-                UpdateSpeed();
+            this.transform.SetPositionAndRotation(transform.position + new Vector3(Player.Speed, 0, 0), transform.rotation);
+            _surrounding.CheckSurrounding();
         } else if( Input.GetKey(KeyCode.A) ) {
-            this.transform.SetPositionAndRotation(transform.position + new Vector3(-_speed, 0, 0), transform.rotation);
-            if( _surrounding.CheckSurrounding() )
-                UpdateSpeed();
+            this.transform.SetPositionAndRotation(transform.position + new Vector3(-Player.Speed, 0, 0), transform.rotation);
+            _surrounding.CheckSurrounding();
         }
         if( Input.GetKey(KeyCode.W) ) {
-            this.transform.SetPositionAndRotation(transform.position + new Vector3(0, _speed, 0), transform.rotation);
-            if( _surrounding.CheckSurrounding() )
-                UpdateSpeed();
+            this.transform.SetPositionAndRotation(transform.position + new Vector3(0, Player.Speed, 0), transform.rotation);
+            _surrounding.CheckSurrounding();
         } else if( Input.GetKey(KeyCode.S) ) {
-            this.transform.SetPositionAndRotation(transform.position + new Vector3(0, -_speed, 0), transform.rotation);
-            if( _surrounding.CheckSurrounding() )
-                UpdateSpeed();
+            this.transform.SetPositionAndRotation(transform.position + new Vector3(0, -Player.Speed, 0), transform.rotation);
+            _surrounding.CheckSurrounding();
         }
+        Player.Update(Time.deltaTime);
     }
-
-    internal void UpdateSpeed() {
-        switch( _surrounding.Current ) {
-        case Surrounding.Land:
-            _speed = InitSpeed;
-            break;
-        case Surrounding.Water:
-            _speed = (float)(InitSpeed * 0.5);
-            break;
-        case Surrounding.WaterDeep:
-            _speed = (float)(InitSpeed * 0.3);
-            break;
-        case Surrounding.WaterOcean:
-            _speed = (float)(InitSpeed * 0.1);
-            break;
-        case Surrounding.Unknown:
-            _speed = InitSpeed;
-            break;
-        }
-    }
-
 
 }

@@ -15,11 +15,18 @@ public class PlayerSurrounding:MonoBehaviour
     public Sprite DeepSprite;
     public Sprite OceanSprite;
 
-    public Surrounding Current { get { return _current; } }
+    private Player _player {
+        get {
+            if( _p == null ) {
+                _p = GetComponent<PlayerController>().Player;
+                _p.RegisterSurroundingChange(UpdateSprite);
+            }
+            return _p;
+        }
+    }
+    private Player _p;
 
-    private Surrounding _current;
-
-    public bool CheckSurrounding() {
+    public void CheckSurrounding() {
         Texture2D t = LevelLayout.sprite.texture;
         var pos = new Vector2Int((int)(transform.position.x * SizeMlt), (int)((transform.position.y + 0.1) * SizeMlt));
         var color = t.GetPixel(pos.x, pos.y);
@@ -30,29 +37,21 @@ public class PlayerSurrounding:MonoBehaviour
             color == WaterOcean ? "WaterOcean" :
             "Unknown")
             );
-        Surrounding result;
         if( color == Land ) {
-            result = Surrounding.Land;
+            _player.Surrounding = Surrounding.Land;
         } else if( color == Water ) {
-            result = Surrounding.Water;
+            _player.Surrounding = Surrounding.Water;
         } else if( color == WaterDeep ) {
-            result = Surrounding.WaterDeep;
+            _player.Surrounding = Surrounding.WaterDeep;
         } else if( color == WaterOcean ) {
-            result = Surrounding.WaterOcean;
+            _player.Surrounding = Surrounding.WaterOcean;
         } else {
-            result = Surrounding.Unknown;
-        }
-        if( result == _current ) {
-            return false;
-        } else {
-            _current = result;
-            UpdateSprite();
-            return true;
+            _player.Surrounding = Surrounding.Unknown;
         }
     }
 
-    public void UpdateSprite() {
-        switch( _current ) {
+    public void UpdateSprite(Surrounding surr) {
+        switch( surr ) {
         case Surrounding.Land:
             WaterMask.sprite = null;
             break;
@@ -65,7 +64,7 @@ public class PlayerSurrounding:MonoBehaviour
         case Surrounding.WaterOcean:
             WaterMask.sprite = OceanSprite;
             break;
-       
+
         default:
             break;
         }

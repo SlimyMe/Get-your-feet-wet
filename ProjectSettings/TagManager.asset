@@ -11,7 +11,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - LevelLayout
   - 
   - 
   - 
@@ -40,4 +40,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Movement
+    uniqueID: 2706032109
+    locked: 0
+  - name: Player
+    uniqueID: 3156766791
     locked: 0

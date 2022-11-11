@@ -30,13 +30,13 @@ public class PlayerSurrounding:MonoBehaviour
         Texture2D t = LevelLayout.sprite.texture;
         var pos = new Vector2Int((int)(transform.position.x * SizeMlt), (int)((transform.position.y + 0.1) * SizeMlt));
         var color = t.GetPixel(pos.x, pos.y);
-        Debug.Log("Position: " + pos.x + " " + pos.y + " color: " + (
-            color == Land ? "Land" :
-            color == Water ? "Water" :
-            color == WaterDeep ? "WaterDeep" :
-            color == WaterOcean ? "WaterOcean" :
-            "Unknown")
-            );
+        //Debug.Log("Position: " + pos.x + " " + pos.y + " color: " + (
+        //    color == Land ? "Land" :
+        //    color == Water ? "Water" :
+        //    color == WaterDeep ? "WaterDeep" :
+        //    color == WaterOcean ? "WaterOcean" :
+        //    "Unknown")
+        //    );
         if( color == Land ) {
             _player.Surrounding = Surrounding.Land;
         } else if( color == Water ) {

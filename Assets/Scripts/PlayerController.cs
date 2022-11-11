@@ -6,7 +6,7 @@ public class PlayerController:MonoBehaviour
 {
     public const float InitSpeed = 0.05f;
 
-    private PlayerSurrounding _surrounding;  
+    private PlayerSurrounding _surrounding;
 
 
     // Start is called before the first frame update
@@ -16,7 +16,7 @@ public class PlayerController:MonoBehaviour
             GameData.Player.Surrounding = Surrounding.Land;
         }
         _surrounding = GetComponent<PlayerSurrounding>();
-        _surrounding.CheckSurrounding();            
+        _surrounding.CheckSurrounding();
     }
 
     // Update is called once per frame
@@ -37,5 +37,25 @@ public class PlayerController:MonoBehaviour
         }
         GameData.Player.UpdateWetness(Time.deltaTime);
     }
+
+    public void OnTriggerEnter2D(Collider2D other) {
+        if( other != null ) {
+            var fireplace = other.gameObject.GetComponent<FireplaceController>();
+            if( fireplace != null ) {
+                GameData.Player.IsNearFireplace = true;
+                Debug.Log("Player is near fireplace");
+            }
+        }
+    }
+    public void OnTriggerExit2D(Collider2D other) {
+        if( other != null ) {
+            var fireplace = other.gameObject.GetComponent<FireplaceController>();
+            if( fireplace != null ) {
+                GameData.Player.IsNearFireplace = false;
+                Debug.Log("Player left fireplace");
+            }
+        }
+    }
+
 
 }

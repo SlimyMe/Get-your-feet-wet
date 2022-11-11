@@ -33,10 +33,14 @@ public class Player
     private Surrounding _surrounding = Surrounding.Unknown;
 
     public float Wetness = 0;
+    public float BacisLandDry = 0.005f;
+    public float BacisFireplaceDry = 0.05f;
+    public bool IsNearFireplace = false;
+
 
     internal void UpdateWetness(float deltaTime) {
-        if( Wetness > 0 && _surrounding == Surrounding.Land ) { //slow drying
-            Wetness -= (0.005f * deltaTime);
+        if( Wetness > 0 && _surrounding == Surrounding.Land ) { //slow drying            
+            Wetness -= IsNearFireplace ? (BacisFireplaceDry * deltaTime) : (BacisLandDry * deltaTime);
             if( Wetness < 0 )
                 Wetness = 0;
             _wetnessChange?.Invoke();
